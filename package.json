@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "node --test",
+    "test": "npm run build && node --test",
     "test:offline": "npm run build && npm test",
     "lint": "tsc -p tsconfig.json --noEmit"
   },
