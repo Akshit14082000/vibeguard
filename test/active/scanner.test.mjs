@@ -22,9 +22,11 @@ test("active scanner reports safe checks against a local deterministic server", 
   } finally { await new Promise(resolve => server.close(resolve)); }
 });
 
-test("active scanner rejects non-local targets", async () => {
+test("active scanner accepts an authorized live HTTPS target", async () => {
   const { scanActive } = await import("../../dist/active/scanner.js");
-  await assert.rejects(() => scanActive("https://example.com", { iOwnThis: true }), /local targets/);
+  const fetcher = async () => new Response("not found", { status: 404 });
+  const result = await scanActive("https://example.com", { iOwnThis: true }, fetcher);
+  assert.equal(result.target, "https://example.com/");
 });
 
 test("active scanner requires explicit ownership acknowledgement", async () => {

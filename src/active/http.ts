@@ -20,8 +20,6 @@ export function localTarget(value: string): URL {
   let url: URL;
   try { url = new URL(value); } catch { throw new Error("Active target must be a valid http(s) URL"); }
   if (!/^https?:$/.test(url.protocol)) throw new Error("Active target must use http or https");
-  const local = ["localhost", "127.0.0.1", "::1"].includes(url.hostname) || url.hostname.endsWith(".localhost");
-  if (!local) throw new Error("Active scans are limited to local targets");
   return url;
 }
 
