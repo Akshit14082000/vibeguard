@@ -3,6 +3,7 @@
 import http from "node:http";
 import { exec } from "node:child_process";
 import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 
 // The following intentionally small snippets plant the eight static rule fixtures.
 const apiKey = "demo-secret-value";
@@ -34,5 +35,5 @@ const server = http.createServer((req, res) => {
 });
 
 function send(res, status, body, type = "application/json", headers = {}) { res.writeHead(status, { "content-type": type, ...headers }); res.end(typeof body === "string" ? body : JSON.stringify(body)); }
-if (process.argv[1] === new URL(import.meta.url).pathname.replaceAll("\\", "/")) server.listen(port, () => console.log(`demo listening on ${port}`));
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) server.listen(port, () => console.log(`demo listening on ${port}`));
 export { app };
